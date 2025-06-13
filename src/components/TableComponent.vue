@@ -14,10 +14,10 @@
             v-if="col.clickable"
             class="clickable-link"
             @click="$emit('cell-click', { row, column: col })"
-            >{{ row[col.key] }}</span
+            >{{ formatCell(row[col.key], col) }}</span
           >
           <span v-else>
-            {{ row[col.key] }}
+            {{ formatCell(row[col.key], col) }}
           </span>
         </td>
       </tr>
@@ -27,6 +27,7 @@
 
 <script setup>
 import { defineProps, defineEmits } from "vue";
+import dayjs from "dayjs";
 // Props 정의
 const props = defineProps({
   columns: {
@@ -38,6 +39,13 @@ const props = defineProps({
     required: true,
   },
 });
+
+function formatCell(value, col) {
+  if (col.format === "date") {
+    return value ? dayjs(value).format("YYYY-MM-DD HH:mm") : "";
+  }
+  return value;
+}
 
 defineEmits(["cell-click"]);
 </script>

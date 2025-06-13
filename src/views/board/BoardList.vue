@@ -4,7 +4,7 @@
       <button
         type="button"
         class="w3-button w3-round w3-blue-gray"
-        v-on:click="fnWrite"
+        @click="fnWrite"
       >
         등록
       </button>
@@ -80,7 +80,11 @@ const tableColumns = [
   { label: "ID", key: "id" },
   { label: "제목", key: "title", clickable: true },
   { label: "작성자", key: "author" },
-  { label: "등록일시", key: "createAt" },
+  {
+    label: "등록일시",
+    key: "createdAt",
+    format: "date",
+  },
 ];
 
 const tableData = ref([
@@ -88,7 +92,7 @@ const tableData = ref([
     id: 0,
     title: "",
     author: "",
-    createAt: "",
+    createdAt: "",
   },
 ]);
 
@@ -126,7 +130,9 @@ const paginavigation = () => {
 };
 
 const fnWrite = () => {
-  alert("등록 버튼 클릭");
+  router.push({
+    name: "BoardWrite",
+  });
 };
 
 // const fnView = (idx) => {
