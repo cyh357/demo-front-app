@@ -1,9 +1,11 @@
 const { defineConfig } = require("@vue/cli-service");
 module.exports = defineConfig({
   transpileDependencies: true,
+
   configureWebpack: {
     devtool: "source-map",
   },
+
   // Build Directory
   outputDir: "../resources/static",
 
@@ -15,4 +17,10 @@ module.exports = defineConfig({
       },
     },
   },
+
+  pluginOptions: {
+    vuetify: {
+			// https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
+		}
+  }
 });

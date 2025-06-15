@@ -1,44 +1,37 @@
 <template>
-  <PageHeader />
-  <!-- 헤더 컴포넌트 -->
-  <router-view />
-  <!-- 페이지 이동이 표시될 곳 -->
-  <PageFooter />
-  <!-- 푸터 컴포넌트 -->
+  <v-app>
+    <!-- 상단 앱 바 -->
+    <AppBar v-model:drawer="drawer" @toggle-drawer="drawer = !drawer" />
+    <!-- 사이드 네비게이션 드로어 -->
+    <SideBar v-model:drawer="drawer" />
+
+    <!-- 메인 콘텐츠 영역 -->
+    <v-main>
+      <v-container class="pa-4">
+        <router-view />
+      </v-container>
+    </v-main>
+
+    <!-- 하단 푸터 -->
+    <PageFooter />
+  </v-app>
 </template>
 
-<script>
-import PageHeader from "@/components/PageHeader";
-import PageFooter from "@/components/PageFooter";
+<script setup>
+import { ref } from "vue";
+import AppBar from "@/components/AppBar.vue";
+import SideBar from "@/components/SideBar.vue";
+import PageFooter from "@/components/PageFooter.vue";
 
-export default {
-  name: "App",
-  components: {
-    PageFooter,
-    PageHeader,
-  },
-};
+const drawer = ref(false);
+// const test = () => {
+//   drawer.value = !drawer.value;
+//   // eslint-disable-next-line no-debugger
+//   debugger;
+//   console.log("test:" + drawer.value);
+// };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+/* 필요 시 스타일 추가 */
 </style>

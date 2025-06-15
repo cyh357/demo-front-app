@@ -1,10 +1,7 @@
 <template>
-  <hr />
-  <footer>여기는 footer 자리입니다.</footer>
+  <v-footer app color="primary" dark>
+    <v-col class="text-center">© {{ new Date().getFullYear() }} My App</v-col>
+  </v-footer>
 </template>
 
-<script>
-export default {};
-</script>
-
-<style scoped></style>
+<script setup></script>
