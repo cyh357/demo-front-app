@@ -5,6 +5,7 @@ import BoardWrite from "@/views/board/BoardWrite.vue";
 import BoardDetail from "@/views/board/BoardDetail.vue";
 import Login from "@/views/user/LoginPage.vue";
 import Register from "@/views/user/RegisterPage.vue";
+import BoardList2 from "@/views/board/BoardList2.vue";
 
 const routes = [
   {
@@ -16,6 +17,11 @@ const routes = [
     path: "/board/list",
     name: "BoardList",
     component: BoardList,
+  },
+  {
+    path: "/board/list2",
+    name: "BoardList2",
+    component: BoardList2,
   },
   {
     path: "/board/write",

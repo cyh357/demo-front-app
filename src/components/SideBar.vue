@@ -12,6 +12,13 @@
         >
         <v-list-item-title>게시판</v-list-item-title>
       </v-list-item>
+
+      <v-list-item to="/board/list2" link>
+        <v-list-item-icon
+          ><v-icon>mdi-format-list-bulleted</v-icon></v-list-item-icon
+        >
+        <v-list-item-title>게시판2</v-list-item-title>
+      </v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>

@@ -19,7 +19,7 @@
 
         <!-- 작성일 -->
         <v-text-field
-          v-model="board.createdAt"
+          :model-value="formatDateTime(board.createdAt)"
           label="작성일"
           readonly
           outlined
@@ -51,6 +51,7 @@
 import axios from "axios";
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { formatDateTime } from "@/utils/dateFormatter";
 
 const route = useRoute();
 const router = useRouter();

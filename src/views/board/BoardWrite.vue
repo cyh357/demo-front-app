@@ -1,39 +1,67 @@
 <template>
-  <div>
-    <!-- template 내부 버튼 영역에 추가 -->
-    <button @click="router.back">뒤로가기</button>
-    <h2>게시글 등록</h2>
-    <div>
-      <label>제목:</label>
-      <input required v-model="form.title" />
-    </div>
-    <div>
-      <label>내용:</label>
-      <textarea required v-model="form.contents"></textarea>
-    </div>
-    <button @click="submit">등록</button>
-    <button @click="goList">목록</button>
-  </div>
+  <v-container class="py-6">
+    <v-card class="pa-6" max-width="700" elevation="2">
+      <v-card-title class="text-h5 mb-4">게시글 등록</v-card-title>
+
+      <v-card-text>
+        <v-btn
+          variant="outlined"
+          size="small"
+          class="mb-4"
+          @click="router.back()"
+        >
+          ← 뒤로가기
+        </v-btn>
+
+        <!-- 제목 -->
+        <v-text-field
+          v-model="board.title"
+          label="제목"
+          outlined
+          required
+          :rules="[required]"
+          class="mb-4"
+        />
+
+        <!-- 내용 -->
+        <v-textarea
+          v-model="board.contents"
+          label="내용"
+          outlined
+          rows="6"
+          required
+          :rules="[required]"
+          class="mb-4"
+        />
+      </v-card-text>
+
+      <v-card-actions class="d-flex justify-end gap-2">
+        <v-btn color="primary" @click="saveBoard">등록</v-btn>
+        <v-btn color="grey" @click="goList">목록</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-container>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
+import { useUserStore } from "@/stores/userStore";
+import { required } from "@/utils/validationRules";
 
 const router = useRouter();
+const userStore = useUserStore();
 
-const form = ref({
+const board = ref({
   title: "",
   contents: "",
-  author: "사용자 ", //session으로 사용자 저장. test중에는 일단 하드코딩.
+  author: userStore.userId, // session으로 사용자 저장(pinia에 저장해논 값.).
 });
 
-const submit = async () => {
+const saveBoard = async () => {
   try {
-    // eslint-disable-next-line no-debugger
-    debugger;
-    await axios.post("/api/board", form.value);
+    await axios.post("/api/board", board.value);
     alert("등록 완료");
     router.push({ name: "BoardList" });
   } catch (err) {
