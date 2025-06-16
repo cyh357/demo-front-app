@@ -8,18 +8,22 @@
 
       <v-data-table-server
         :headers="tableHeaders"
+        v-model:page="paging.pageIndex"
         :items="boards"
         :items-length="paging.totalCount"
         :items-per-page="paging.pageSize"
-        @update:page="onPageChange"
         :loading="loading"
         class="elevation-1"
+        @update:page="onPageChange"
         @click:row="goDetail"
       >
+        <template #no-data>
+          <div class="text-center py-6">데이터가 없습니다.</div>
+        </template>
         <!-- createdAt 포맷 변경 -->
-        <!-- <template v-slot:item.createdAt="{ item }">
+        <template #[`item.createdAt`]="{ item }">
           {{ formatDateTime(item.createdAt) }}
-        </template> -->
+        </template>
       </v-data-table-server>
     </v-card>
   </v-container>
@@ -29,7 +33,7 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
-// import { formatDateTime } from "@/utils/dateFormatter";
+import { formatDateTime } from "@/utils/dateFormatter";
 
 const router = useRouter();
 const route = useRoute();
@@ -43,7 +47,6 @@ const tableHeaders = [
   { title: "등록일시", key: "createdAt" },
 ];
 
-console.log(route.query.page);
 const boards = ref([]);
 const paging = ref({
   pageIndex: Number(route.query.pageIndex) || 1,
@@ -60,7 +63,6 @@ const fetchData = async () => {
         pageSize: paging.value.pageSize,
       },
     });
-
     boards.value = res.data.data;
     paging.value.totalCount = res.data.totalCount;
   } catch (e) {
@@ -79,10 +81,8 @@ const goWrite = () => {
   router.push({ name: "BoardWrite" });
 };
 
-const goDetail = (event) => {
-  const id = event?.item?.id;
-  console.log(id);
-  //   router.push({ name: "BoardDetail", params: { id } });
+const goDetail = (event, data) => {
+  router.push({ name: "BoardDetail", params: { id: data.item.id } });
 };
 
 onMounted(() => {

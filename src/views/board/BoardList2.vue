@@ -14,7 +14,7 @@
     />
 
     <!-- 페이지네이션 -->
-    <v-row justify="center" class="mt-6" v-if="paging.total_list_cnt > 0">
+    <v-row justify="center" class="mt-6" v-if="paging.totalCount > 0">
       <v-btn icon @click="fnPage(1)">
         <v-icon>mdi-chevron-double-left</v-icon>
       </v-btn>
@@ -30,7 +30,7 @@
         v-for="n in paginavigation()"
         :key="n"
         @click="fnPage(n)"
-        :color="paging.page === n ? 'primary' : undefined"
+        :color="paging.pageIndex === n ? 'primary' : undefined"
         variant="outlined"
         class="mx-1"
       >
@@ -70,17 +70,23 @@ const tableColumns = [
 const tableData = ref([]);
 
 const paging = ref({
-  page: Number(route.query.page) || 1,
-  page_size: 10,
-  total_list_cnt: 3,
+  pageIndex: Number(route.query.page) || 1,
+  pageSize: 10,
+  totalCount: 3,
   total_page_cnt: 1,
   start_page: 1,
   end_page: 10,
 });
 
 const fetchData = async () => {
-  const response = await axios.get("/api/board");
-  tableData.value = response.data;
+  const response = await axios.get("/api/board", {
+    params: {
+      pageIndex: paging.value.pageIndex,
+      pageSize: paging.value.pageSize,
+    },
+  });
+  tableData.value = response.data.data;
+  paging.value.totalCount = response.data.totalCount;
 };
 
 const fnPage = (page) => {
